@@ -11,15 +11,29 @@ module.exports.registerUser = async(req,res)=>{
         let newUser = new User({email,UT,username});
         let registeredUser = await User.register(newUser,password);
         console.log(registeredUser);
-        let newCafeOwner = new cafeOwner({email});
-        await newCafeOwner.save();
-        req.login(registeredUser,(err)=>{
-            if(err){
-                return next(err);
-            }
-            req.flash("success","Welcome to wanderlust");
-            res.redirect("/listings");
-        })
+        if(UT === "cafeOwner"){
+            let newCafeOwner = new cafeOwner({email});
+            console.log(newCafeOwner);
+            await newCafeOwner.save();
+            req.login(registeredUser,(err)=>{
+                if(err){
+                    return next(err);
+                }
+                req.flash("success","Welcome to wanderlust");
+                // res.send("cafeOWNER");
+                res.redirect(`/listings/owner/${newCafeOwner._id}`);
+                return;
+            })
+        }
+        else{
+            req.login(registeredUser,(err)=>{
+                if(err){
+                    return next(err);
+                }
+                req.flash("success","Welcome to wanderlust");
+                res.redirect("/listings");
+            })
+        }
     } catch(e){
         req.flash("error",e.message);
         res.redirect("/signup");

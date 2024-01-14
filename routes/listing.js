@@ -31,4 +31,14 @@ router
 //Edit Route
 router.get("/:id/edit", isLoggedIn,isOwner, wrapAsync(ListingController.renderEditForm));
 
+// cafeOwnerIndexRoute
+// router.get("/:id/:cafeOwnerId", isLoggedIn,isOwner, wrapAsync(ListingController.renderEditForm));
+router.get("/owner/:cafeOwnerId", async(req,res)=>{
+    let {cafeOwnerId} = req.params;
+    console.log("..."+cafeOwnerId);
+    const allListings = await Listing.find({owner:cafeOwnerId});
+    // res.send("cafeOwner page");
+    res.render("listings/index.ejs",{allListings});
+});
+
 module.exports = router;
