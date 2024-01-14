@@ -7,11 +7,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    // UT:{
-    //     type: String,
-    //     enum: ['normalUser','cafeOwner','singer'],
-    //     required: true
-    // }
+    UT:{
+        type: String,
+        enum: ['normalUser','cafeOwner','singer'],
+        required: true,
+    }
 });
 
 userSchema.plugin(passportLocalMongoose);
