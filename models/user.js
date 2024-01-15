@@ -14,20 +14,8 @@ const userSchema = new Schema({
             required: true,
         },
         userId:{
-            enum: [
-                {
-                    type : Schema.Types.ObjectId,
-                    ref : "normalUser"
-                },
-                {
-                    type : Schema.Types.ObjectId,
-                    ref : "cafeOwner"
-                },
-                {
-                    type : Schema.Types.ObjectId,
-                    ref : "singer"
-                }
-            ]
+            type : Schema.Types.ObjectId,
+            ref : "CafeOwner" || "NormalUser"||"Singer"
         }
     }
 });

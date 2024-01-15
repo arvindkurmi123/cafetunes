@@ -3,7 +3,7 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/expressError.js");
 const Listing = require("../models/listing.js");
-const {isLoggedIn, isOwner, validateListing} = require("../middleware.js");
+const {isLoggedIn, isOwner, validateListing, isCafeOwner} = require("../middleware.js");
 
 const ListingController = require("../controllers/listings.js");
 const multer = require("multer");
@@ -33,7 +33,7 @@ router.get("/:id/edit", isLoggedIn,isOwner, wrapAsync(ListingController.renderEd
 
 // cafeOwnerIndexRoute
 // router.get("/:id/:cafeOwnerId", isLoggedIn,isOwner, wrapAsync(ListingController.renderEditForm));
-router.get("/owner/:cafeOwnerId", async(req,res)=>{
+router.get("/owner/:cafeOwnerId",isLoggedIn,isCafeOwner, async(req,res)=>{
     let {cafeOwnerId} = req.params;
     console.log("..."+cafeOwnerId);
     const allListings = await Listing.find({owner:cafeOwnerId});

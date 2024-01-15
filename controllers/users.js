@@ -53,8 +53,18 @@ module.exports.renderLoginForm = (req,res)=>{
 
 module.exports.loginUser = async (req,res)=>{
     req.flash("success","Welcome back to Wanderlust!");
-    let redirectUrl = res.locals.redirectUrl || "/listings";
-    res.redirect(redirectUrl);
+    let redirectUrl = res.locals.redirectUrl;
+    if(!redirectUrl){
+        if(req.user.UT.type === 'cafeOwner'){
+            console.log("owner/redirected");
+            return res.redirect(`/listings/owner/${req.user.UT.userId}`);
+        }
+    }
+    else{
+        redirectUrl = redirectUrl || "/listings";
+        res.redirect(redirectUrl);
+    }
+    
 };
 
 module.exports.logoutUser = (req,res,next)=>{
