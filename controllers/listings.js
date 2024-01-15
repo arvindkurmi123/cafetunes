@@ -36,12 +36,13 @@ module.exports.createListing = async (req, res, next) => {
     let url = req.file.path;
     let filename = req.file.finename;
     const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id;
+    newListing.owner = res.locals.currUser.userId;
     newListing.image = {url,filename};
     newListing.geometry = response.body.features[0].geometry;
+    console.log(newListing);
     await newListing.save();
     req.flash("success","New Listing created!");
-    res.redirect("/listings");
+    res.redirect(`/listings/owner/${res.locals.currUser.userId}`);
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -49,7 +50,7 @@ module.exports.renderEditForm = async (req, res) => {
     const listing = await Listing.findById(id);
     if(!listing){
         req.flash("error","Listing you have requested, does not exist!");
-        res.redirect("/listings");
+        return res.redirect("/listings");
     }
     let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload","/upload/w_250");

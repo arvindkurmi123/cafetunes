@@ -12,6 +12,7 @@ const ExpressError = require("./utils/expressError.js");
 const listingRouter = require('./routes/listing.js');
 const reviewRouter = require('./routes/review.js');
 const userRouter = require("./routes/user.js");
+const ownerRouter = require("./routes/owner.js");
 const session = require('express-session');
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -73,9 +74,8 @@ app.use((req,res,next)=>{
   next();
 });
 
-
-
 app.use("/listings",listingRouter);
+app.use("/owners",ownerRouter)
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter);
 
