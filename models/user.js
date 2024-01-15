@@ -8,9 +8,27 @@ const userSchema = new Schema({
         required: true
     },
     UT:{
-        type: String,
-        enum: ['normalUser','cafeOwner','singer'],
-        required: true,
+        type:{
+            type: String,
+            enum: ['normalUser','cafeOwner','singer'],
+            required: true,
+        },
+        userId:{
+            enum: [
+                {
+                    type : Schema.Types.ObjectId,
+                    ref : "normalUser"
+                },
+                {
+                    type : Schema.Types.ObjectId,
+                    ref : "cafeOwner"
+                },
+                {
+                    type : Schema.Types.ObjectId,
+                    ref : "singer"
+                }
+            ]
+        }
     }
 });
 

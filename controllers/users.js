@@ -7,14 +7,21 @@ module.exports.renderSignupForm = (req,res)=>{
 
 module.exports.registerUser = async(req,res)=>{
     try{
-        let {username, email, password, UT} = req.body;
-        let newUser = new User({email,UT,username});
-        let registeredUser = await User.register(newUser,password);
-        console.log(registeredUser);
-        if(UT === "cafeOwner"){
+        let {username, email, password, type} = req.body;
+        
+        if(type === "cafeOwner"){
             let newCafeOwner = new cafeOwner({email});
             console.log(newCafeOwner);
+            let UT = {
+                type: type,
+                userId:newCafeOwner._id
+            }
+            let newUser = new User({email,UT,username});
+            let registeredUser = await User.register(newUser,password);
+            console.log(registeredUser);
+            console.log(newCafeOwner);
             await newCafeOwner.save();
+            
             req.login(registeredUser,(err)=>{
                 if(err){
                     return next(err);
