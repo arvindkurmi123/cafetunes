@@ -66,15 +66,12 @@ module.exports.validateReview = (req,res,next) =>{
 
 module.exports.isCafeOwner = async (req,res,next)=>{
   let {cafeOwnerId} = req.params;
-  // console.log(cafeOwnerId);
   let user = res.locals.currUser;
-  console.log(user);
-  // console.log(user.UT.userId.toString());
   if( user.userType === "cafeOwner"){
-    if(cafeOwnerId === user.userId.toString()){
+    if(cafeOwnerId === user._id.toString()){
         return next();
     }
   }
-  req.flash("error","You are not the owner of this Cafe!");
-  return res.redirect(`/listings/owner/${user.userId}`);
+  // req.flash("error","You are not the owner of this Cafe! this line is for development purpose only");
+  return res.redirect(`/owners/${user._id}`);
 }

@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const cafeOwner = require("../models/cafeOwner");
-const cafe = require("../models/cafe");
+const Cafe = require("../models/cafe");
 
 module.exports.renderSignupForm = (req,res)=>{
     res.render("users/signup.ejs");
@@ -59,8 +59,10 @@ module.exports.loginUser = async (req,res)=>{
     req.flash("success","Welcome back to Wanderlust!");
     let redirectUrl = res.locals.redirectUrl;
     if(!redirectUrl){
+        
         if(req.user.userType === 'cafeOwner'){
-            return res.redirect(`/owners/${req.user.userId}`);
+            let cafe = await Cafe.findOne({owner:req.user._id});
+            return res.redirect(`/owners/${cafe.owner}`);
         }else{
             return res.send("login path for singer or normal user is not given in controllers");
         }

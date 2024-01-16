@@ -42,11 +42,12 @@ router.post("/:cafeOwnerId", async(req,res)=>{
     // console.log("updated User info"+user);
     res.redirect(`/owners/${newCafe.owner}`);
 });
-router.get("/:cafeOwnerId",isLoggedIn, async(req,res)=>{
+router.get("/:cafeOwnerId",isLoggedIn,isCafeOwner, async(req,res)=>{
     let {cafeOwnerId} = req.params;
-    console.log("..."+cafeOwnerId);
-    const cafeInfo = await Cafe.find({owner:cafeOwnerId});
-    console.log(cafeInfo);
+
+    const newCafeInfo = await Cafe.find({owner:cafeOwnerId});
+   console.log(newCafeInfo[0]);
+   let cafeInfo = newCafeInfo[0];
     res.render("cafes/showCafe.ejs",{cafeInfo});
 });
 
