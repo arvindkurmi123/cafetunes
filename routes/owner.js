@@ -48,7 +48,7 @@ router.get("/:cafeOwnerId",isLoggedIn,isCafeOwner, async(req,res)=>{
     const newCafeInfo = await Cafe.find({owner:cafeOwnerId});
    console.log(newCafeInfo[0]);
    let cafeInfo = newCafeInfo[0];
-    res.render("cafes/showCafe.ejs",{cafeInfo});
+    res.render("caves/showCafe.ejs",{cafeInfo});
 });
 
 module.exports = router;

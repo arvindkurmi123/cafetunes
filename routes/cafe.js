@@ -8,10 +8,11 @@ router.get("/",async(req,res)=>{
     const allCaves = await Cafe.find({});
     res.render("caves/index.ejs", { allCaves });
 });
-router.get("/:id",async(req,res)=>{
+router.get("/:id",isLoggedIn,async(req,res)=>{
     let {id} = req.params;
-    const cafeInfo = await Cafe.findOne({_id:id});
-    // console.log(cafeInfo);
+    let cafeInfo = await Cafe.findOne({_id:id});
+    cafeInfo = await cafeInfo.populate("owner");
+    console.log(cafeInfo);
     res.render("caves/showCafe.ejs",{cafeInfo});
 })
 

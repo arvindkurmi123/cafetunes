@@ -8,9 +8,9 @@
         <div class="card listing-card">
           <img class="card-img-top show-img" src=<%= cafeInfo.image %> alt="cardimg">
           <div class="card-body">
-            <p class="card-text"> Owned by <b>cafe ko username se populate karana padega</b></p>
+            <p class="card-text"> Owned by <b><%= cafeInfo.owner.username %></b></p>
             <p class="card-text"> <%= cafeInfo.description %></p>
-            
+            <p class="card-text"><i class="fa-solid fa-phone"></i> <%= cafeInfo.phone %></p>
             <p class="card-text">cafe location: <%= cafeInfo.location %></p> 
             <p class="card-text">country: <%= cafeInfo.country %></p>  
           </div>
