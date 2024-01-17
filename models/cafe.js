@@ -18,7 +18,11 @@ const cafeSchema = new Schema({
   reviews:[{
     type : Schema.Types.ObjectId,
     ref : "Review" 
-  }]
+  }],
+  events:[{
+    type : Schema.Types.ObjectId,
+    ref : "Event" 
+  }],
 //   geometry :{
 //       type: {
 //         type: String, // Don't do `{ location: { type: String } }`

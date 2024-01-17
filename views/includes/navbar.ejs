@@ -36,11 +36,16 @@
         </form>
 
         <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Host your show</a>
+          
           <% if(!currUser) {%>
+          <a class="nav-link" href="/listings/new">Host your show</a>
           <a class="nav-link" href="/signup"><b>Sign-up <i class="fa-solid fa-user-plus"></i></b></a>
           <a class="nav-link" href="/login"><b>Login <i class="fa-solid fa-right-to-bracket fa-shake"></i></b></a>
           <% } if(currUser){%>
+            <% if(currUser.userType=="cafeOwner"){%>
+              <a class="nav-link" href="/owners/<%= currUser._id %>/events/new"><b>Host an event</b></a>
+            <%}%>
+
           <a class="nav-link" href="/logout"><b>Logout <i class="fa-solid fa-right-from-bracket"></i></b></a>
           <% } %>
         </div>

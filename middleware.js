@@ -59,7 +59,7 @@ module.exports.validateReview = (req,res,next) =>{
     let review = await Review.findById(reviewId);
     if(!review.author.equals(res.locals.currUser._id)){
         req.flash("error","You are not the author of this review!");
-        return res.redirect(`/listings/${id}`);
+        return res.redirect(`/caves/${id}`);
     }
     next();
 }
@@ -71,7 +71,9 @@ module.exports.isCafeOwner = async (req,res,next)=>{
     if(cafeOwnerId === user._id.toString()){
         return next();
     }
+    req.flash("error","You are not the owner of this Cafe! you should register as cafeOwner");
+    return res.redirect("/signup");
   }
-  // req.flash("error","You are not the owner of this Cafe! this line is for development purpose only");
+  
   return res.redirect(`/owners/${user._id}`);
 }

@@ -5,6 +5,7 @@ const Listing = require("../models/listing.js");
 const { isLoggedIn, isOwner, validateListing, isCafeOwner } = require("../middleware.js");
 const Cafe = require("../models/cafe.js");
 const User = require("../models/user.js");
+const Event = require("../models/event.js");
 
 router.get("/new", (req, res, next) => {
     try {
@@ -26,20 +27,6 @@ router.post("/:cafeOwnerId", async (req, res) => {
         req.flash("error", "You should register first!");
         return res.redirect("/signup");
     }
-
-    // console.log("updated User info"+user);
-
-    // User.updateOne({ _id: req.params.cafeOwnerId }, { $set: { userId: newCafe._id } }, (err, result) => {
-    //     if (err) {
-    //       // Handle error
-    //       console.error(err);
-    //       return next(err);
-    //     } else {
-    //         return res.redirect(`/owners/${newCafe.owner}`);
-    //         console.log(result);
-    //     }
-    // });
-    // console.log("updated User info"+user);
     res.redirect(`/owners/${newCafe.owner}`);
 });
 router.get("/:cafeOwnerId", isLoggedIn, isCafeOwner, async (req, res) => {
@@ -52,5 +39,28 @@ router.get("/:cafeOwnerId", isLoggedIn, isCafeOwner, async (req, res) => {
        console.log("cafeInfo in owner.js /:cafeOwnerId route",cafeInfo);
     res.render("owners/index.ejs", { cafeInfo });
 });
+router.get("/:cafeOwnerId/events/new",isLoggedIn,isCafeOwner,(req,res)=>{
+    let {cafeOwnerId} = req.params;
+    res.render("events/new.ejs",{cafeOwnerId});
+})
+router.post("/:cafeOwnerId/events",isLoggedIn,isCafeOwner,async(req,res)=>{
+    let {cafeOwnerId} = req.params;
+    let event = new Event(req.body.event);
+    console.log(event);
+    let user = await User.findOne({_id:cafeOwnerId});
+    event.owner = user;
+    let cafe = await Cafe.findOne({owner:cafeOwnerId});
+    event.cafe = cafe;
+    event.save();
+    cafe.events.push(event);
+    cafe.save();
+    console.log("the event",event);
+    console.log("the cafe",cafe);
+    console.log("the user",user);
 
+
+    // res.send("sent")
+    req.flash("success","new event is created successfully");
+    res.redirect(`/owners/${cafeOwnerId}`);
+})
 module.exports = router;
