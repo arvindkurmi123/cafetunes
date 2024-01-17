@@ -2,28 +2,28 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
-const {isLoggedIn, isOwner, validateListing, isCafeOwner} = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing, isCafeOwner } = require("../middleware.js");
 const Cafe = require("../models/cafe.js");
 const User = require("../models/user.js");
 
-router.get("/new",(req,res,next)=>{
-    try{
+router.get("/new", (req, res, next) => {
+    try {
         let ownerId = res.locals.currUser._id;
         console.log(res.locals.currUser);
-        res.render("cafes/newCafe.ejs",{ownerId});
-    }catch(e){
-        req.flash("success","New Listing created!");
+        res.render("cafes/newCafe.ejs", { ownerId });
+    } catch (e) {
+        req.flash("success", "New Listing created!");
         next();
     }
 });
-router.post("/:cafeOwnerId", async(req,res)=>{
+router.post("/:cafeOwnerId", async (req, res) => {
     const newCafe = new Cafe(req.body.cafe);
     newCafe.owner = req.params.cafeOwnerId;
     await newCafe.save();
-    console.log("newCafe info"+newCafe);
-    const user = await User.find({_id:req.params.cafeOwnerId});
-    if(!user){
-        req.flash("error","You should register first!");
+    console.log("newCafe info" + newCafe);
+    const user = await User.find({ _id: req.params.cafeOwnerId });
+    if (!user) {
+        req.flash("error", "You should register first!");
         return res.redirect("/signup");
     }
 
@@ -42,14 +42,15 @@ router.post("/:cafeOwnerId", async(req,res)=>{
     // console.log("updated User info"+user);
     res.redirect(`/owners/${newCafe.owner}`);
 });
-router.get("/:cafeOwnerId",isLoggedIn,isCafeOwner, async(req,res)=>{
-    let {cafeOwnerId} = req.params;
+router.get("/:cafeOwnerId", isLoggedIn, isCafeOwner, async (req, res) => {
+    let { cafeOwnerId } = req.params;
 
-    const newCafeInfo = await Cafe.find({owner:cafeOwnerId});
-   console.log(newCafeInfo[0]);
-   let cafeInfo =await newCafeInfo[0].populate("owner");
-//    console.log("cafeInfo in owner.js /:cafeOwnerId route",cafeInfo);
-    res.render("caves/showCafe.ejs",{cafeInfo});
+    const newCafeInfo = await Cafe.find({ owner: cafeOwnerId });
+    console.log(newCafeInfo[0]);
+    let cafeInfo = await newCafeInfo[0].populate("owner");
+    cafeInfo = await cafeInfo.populate({ path: "reviews", populate: { path: "author" } });
+       console.log("cafeInfo in owner.js /:cafeOwnerId route",cafeInfo);
+    res.render("owners/index.ejs", { cafeInfo });
 });
 
 module.exports = router;

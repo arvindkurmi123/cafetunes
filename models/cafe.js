@@ -14,7 +14,11 @@ const cafeSchema = new Schema({
   owner:{
     type : Schema.Types.ObjectId,
     ref : "User"
-  }
+  },
+  reviews:[{
+    type : Schema.Types.ObjectId,
+    ref : "Review" 
+  }]
 //   geometry :{
 //       type: {
 //         type: String, // Don't do `{ location: { type: String } }`
