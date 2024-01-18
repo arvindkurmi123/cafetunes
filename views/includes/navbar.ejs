@@ -45,9 +45,11 @@
           <a class="nav-link" href="/login"><b>Login <i class="fa-solid fa-right-to-bracket fa-shake"></i></b></a>
           <% } if(currUser){%>
             <% if(currUser.userType=="cafeOwner"){%>
-              <a class="nav-link" href="/owners/<%= currUser._id %>/events/new"><b>Host an event</b></a>
+              <a class="nav-link" href="/owners/<%= currUser._id %>/events/new">Host an event</a>
+            <%}else if(currUser.userType=="normalUser"){%>
+              <a class="nav-link" href="/confirmation">Register as cafe Owner</a>
+              <a class="nav-link" href="/owners/<%= currUser._id %>/events/new">Register as singer</a>
             <%}%>
-
           <a class="nav-link" href="/logout"><b>Logout <i class="fa-solid fa-right-from-bracket"></i></b></a>
           <% } %>
         </div>

@@ -7,14 +7,19 @@ const Cafe = require("../models/cafe.js");
 const User = require("../models/user.js");
 const Event = require("../models/event.js");
 
-router.get("/new", (req, res, next) => {
+router.get("/new", async(req, res, next) => {
     try {
         let ownerId = res.locals.currUser._id;
-        console.log(res.locals.currUser);
-        res.render("cafes/newCafe.ejs", { ownerId });
+        
+        if(res.locals.currUser.userType=="normalUser"){
+            let user = await User.findOne({_id: ownerId});
+            user.userType = "cafeOwner";
+            await user.save();
+        }
+        res.render("caves/newCafe.ejs", { ownerId });
     } catch (e) {
-        req.flash("success", "New Listing created!");
-        next();
+        req.flash("error", "error occured while creating you an owner!");
+        res.render("/caves");
     }
 });
 router.post("/:cafeOwnerId", async (req, res) => {
@@ -30,8 +35,8 @@ router.post("/:cafeOwnerId", async (req, res) => {
     res.redirect(`/owners/${newCafe.owner}`);
 });
 router.get("/:cafeOwnerId", isLoggedIn, isCafeOwner, async (req, res) => {
-    let { cafeOwnerId } = req.params;
 
+    let { cafeOwnerId } = req.params;
     const newCafeInfo = await Cafe.find({ owner: cafeOwnerId });
     console.log(newCafeInfo[0]);
     let cafeInfo = await newCafeInfo[0].populate("owner");

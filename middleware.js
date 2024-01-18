@@ -4,13 +4,15 @@ const {listingSchema,reviewSchema} = require("./schema.js");
 const ExpressError = require("./utils/expressError.js");
 
 module.exports.isLoggedIn = (req,res,next)=>{
-    console.log(req.isAuthenticated());
-    if(!req.isAuthenticated()){
-        req.session.redirectUrl = req.originalUrl;
-        req.flash("error","you must be logged in to change or create a listing!");
-        return res.redirect("/login");
+    console.log("inside isLoggedIn middleware: user is logged in ",req.isAuthenticated());
+    if(req.isAuthenticated()){
+        return next();
     }
-    next();
+    else{
+      req.session.redirectUrl = req.originalUrl;
+      req.flash("error","you must be logged in to change or create a listing!");
+      return res.redirect("/");
+    }
 }
 
 // since passport(middleware) reinitialize the value of req object, so we can't use the value of req.session.redirectUrl after signup or login process. So we have to create a new middleware for the same thing and save the req.session.redirectUrl value inside res.locals
@@ -69,6 +71,7 @@ module.exports.isCafeOwner = async (req,res,next)=>{
   let user = res.locals.currUser;
   if( user.userType === "cafeOwner"){
     if(cafeOwnerId === user._id.toString()){
+        console.log("is cafe owner varified")
         return next();
     }
     req.flash("error","You are not the owner of this Cafe! you should register as cafeOwner");
