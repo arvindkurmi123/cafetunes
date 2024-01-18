@@ -39,7 +39,7 @@ module.exports.createListing = async (req, res, next) => {
     newListing.owner = res.locals.currUser.userId;
     newListing.image = {url,filename};
     newListing.geometry = response.body.features[0].geometry;
-    console.log(newListing);
+    // console.log(newListing);
     await newListing.save();
     req.flash("success","New Listing created!");
     res.redirect(`/listings/owner/${res.locals.currUser.userId}`);
@@ -54,7 +54,7 @@ module.exports.renderEditForm = async (req, res) => {
     }
     let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload","/upload/w_250");
-    console.log(originalImageUrl);
+    // console.log(originalImageUrl);
     res.render("listings/edit.ejs", { listing, originalImageUrl});
 };
 
@@ -70,7 +70,7 @@ module.exports.updateListing = async (req, res) => {
         limit : 1,
     })
     .send();
-    console.log(response.body.features[0].geometry);
+    // console.log(response.body.features[0].geometry);
     listing.geometry = response.body.features[0].geometry;
 
     if(typeof req.file !== 'undefined'){
@@ -86,7 +86,7 @@ module.exports.updateListing = async (req, res) => {
 module.exports.destroyListing = async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
+    // console.log(deletedListing);
     req.flash("success","Listing deleted successfully!");
     res.redirect("/listings");
 };

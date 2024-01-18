@@ -55,7 +55,7 @@
         <div class="row">
           <p><b>All reviews</b></p>
           <% for(review of cafeInfo.reviews){ %>
-            <div class="card col-5 ms-2 mb-3">
+            <div class="card review-card col-3 ms-3 mb-3">
               <div class="card-body">
                 <h5 class="card-title">@<%= review.author.username %></h5>
                 <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>

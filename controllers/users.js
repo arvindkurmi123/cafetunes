@@ -50,7 +50,7 @@ module.exports.renderLoginForm = (req,res)=>{
 };
 
 module.exports.loginUser = async (req,res)=>{
-    req.flash("success","Welcome back to Wanderlust!");
+    req.flash("success","Welcome back to Cafetunes!");
     let redirectUrl = res.locals.redirectUrl;
     if(!redirectUrl){
         
@@ -84,5 +84,5 @@ module.exports.logoutUser = (req,res,next)=>{
         }
     })
     req.flash("success","you are now logged out!");
-    res.redirect("/listings");
+    res.redirect("/caves");
 };

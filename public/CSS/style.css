@@ -149,3 +149,30 @@ body{
     width: 95vh;
     margin: 20px;
 }
+
+/* event styling */
+.event{
+    width: 84%;
+    border: rgba(0, 0, 0, 0.3) solid 1px;
+    border-radius: 10px;
+}
+.event-image{
+    border-radius: 1rem !important;
+    padding: 10px;
+    width: 100%;
+    object-fit: cover;
+    display: flex;
+}
+.event-img{
+    width: 100%;
+    border-radius: 20px;
+    justify-content: center;
+}
+.event-body{
+    padding: 20px;
+}
+
+/* review-card */
+.review-card{
+    width: 46%;
+}

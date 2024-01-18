@@ -36,7 +36,9 @@ router.get("/:cafeOwnerId", isLoggedIn, isCafeOwner, async (req, res) => {
     console.log(newCafeInfo[0]);
     let cafeInfo = await newCafeInfo[0].populate("owner");
     cafeInfo = await cafeInfo.populate({ path: "reviews", populate: { path: "author" } });
-       console.log("cafeInfo in owner.js /:cafeOwnerId route",cafeInfo);
+    cafeInfo = await cafeInfo.populate({path : "events", populate:{path: "reviews"}});
+    
+    console.log("cafeInfo in owner.js /:cafeOwnerId route",cafeInfo);
     res.render("owners/index.ejs", { cafeInfo });
 });
 router.get("/:cafeOwnerId/events/new",isLoggedIn,isCafeOwner,(req,res)=>{
@@ -51,9 +53,9 @@ router.post("/:cafeOwnerId/events",isLoggedIn,isCafeOwner,async(req,res)=>{
     event.owner = user;
     let cafe = await Cafe.findOne({owner:cafeOwnerId});
     event.cafe = cafe;
-    event.save();
+    await event.save();
     cafe.events.push(event);
-    cafe.save();
+    await cafe.save();
     console.log("the event",event);
     console.log("the cafe",cafe);
     console.log("the user",user);

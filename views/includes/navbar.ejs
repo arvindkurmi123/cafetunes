@@ -27,7 +27,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/">Home</a>
+        </div>
+        <div class="navbar-nav">
+          <a class="nav-link" href="/caves">Explore</a>
         </div>
 
         <form class="d-flex">
@@ -38,7 +41,6 @@
         <div class="navbar-nav ms-auto">
           
           <% if(!currUser) {%>
-          <a class="nav-link" href="/listings/new">Host your show</a>
           <a class="nav-link" href="/signup"><b>Sign-up <i class="fa-solid fa-user-plus"></i></b></a>
           <a class="nav-link" href="/login"><b>Login <i class="fa-solid fa-right-to-bracket fa-shake"></i></b></a>
           <% } if(currUser){%>

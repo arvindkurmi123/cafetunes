@@ -3,10 +3,13 @@ const router = express.Router();
 const {isLoggedIn, isOwner, isReviewAuthor, validateReview} = require("../middleware.js");
 const Cafe = require("../models/cafe.js");
 const Review = require("../models/review");
+const User = require("../models/user.js");
+
 router.get("/",async(req,res)=>{
     const allCaves = await Cafe.find({});
     res.render("caves/index.ejs", { allCaves });
 });
+
 router.get("/:id",isLoggedIn,async(req,res)=>{
     let {id} = req.params;
     let cafeInfo = await Cafe.findOne({_id:id});

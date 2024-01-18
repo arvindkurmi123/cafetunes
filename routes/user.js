@@ -5,7 +5,10 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
 const UserController = require("../controllers/users.js");
-
+// Home route
+router.get("/",(req,res)=>{
+    res.render("Home.ejs")
+})
 // signup route
 router
     .route("/signup")
