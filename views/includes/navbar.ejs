@@ -50,8 +50,8 @@
               <a class="nav-link" href="/owners/<%= currUser._id %>/events/new">Host an event</a>
               <a class="nav-link" href="/owners/<%= currUser._id %>"><%= currUser.username %></a>
             <%}else if(currUser.userType=="normalUser"){%>
-              <a class="nav-link" href="/confirmation">Register as cafe Owner</a>
-              <a class="nav-link" href="/owners/<%= currUser._id %>/events/new">Register as singer</a>
+              <a class="nav-link" href="/owner-confirmation">Register as cafe Owner</a>
+              <a class="nav-link" href="/singer-confirmation">Register as singer</a>
             <%}%>
           <a class="nav-link" href="/logout"><b>Logout <i class="fa-solid fa-right-from-bracket"></i></b></a>
           <% } %>

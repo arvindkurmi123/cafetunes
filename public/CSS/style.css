@@ -179,6 +179,7 @@ body{
 
 
 /* show event page  */
+
 .showEvent{
     display: flex;
     width: 100%;
@@ -202,14 +203,6 @@ body{
     padding: 0;
 }
 
-@media screen and (max-width: 1100px) {
-    .showEvent {
-      display: block;
-    }
-    .showEvent .showEvent-img{
-        width: 100%;
-    }
-}
 
 .showEvent-review-card{
     border: rgba(0, 0, 0, 0.302) 1px solid;
@@ -217,3 +210,48 @@ body{
     width: 47%;
 }
   
+
+/* singer profile page  */
+.media .showEvent .showEvent-img{
+    width: 1000px;
+}
+
+.container{
+    margin-top: 20px;
+}
+.profile-image{
+    width: 30%;
+}
+.clearfix{
+    display: flex;
+}
+.skill-label{
+    background-color: rgba(167, 172, 167, 0.285);
+    border: 1px rgba(0, 0, 0, 0.187) solid;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1100px) {
+    .showEvent {
+      display: block;
+    }
+    .showEvent .showEvent-img{
+        width: 100%;
+    }
+    .media .showEvent .showEvent-img{
+        width: 100%;
+    }
+    .profile-image{
+        width: 60%;
+    }
+}

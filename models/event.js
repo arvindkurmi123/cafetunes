@@ -26,7 +26,10 @@ const eventSchema = new Schema({
     ref : "Cafe"
   },
   hasSinger: Boolean, // to check whether the cafe owner already selected some singer
-  isOccupied: Boolean, // to check whether the singer has ocupied the notification
+  singer: {
+    type: Schema.Types.ObjectId,
+    ref: "Singer"
+  }, // to check whether the singer has ocupied the notification
 });
 
 eventSchema.post("findOneAndDelete", async (event)=>{

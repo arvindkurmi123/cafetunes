@@ -7,7 +7,7 @@ const Cafe = require("../models/cafe.js");
 const User = require("../models/user.js");
 const Event = require("../models/event.js");
 
-router.get("/new", async(req, res, next) => {
+router.get("/new",isLoggedIn, async(req, res, next) => {
     try {
         let ownerId = res.locals.currUser._id;
         
@@ -22,7 +22,7 @@ router.get("/new", async(req, res, next) => {
         res.render("/caves");
     }
 });
-router.post("/:cafeOwnerId", async (req, res) => {
+router.post("/:cafeOwnerId",isLoggedIn,isCafeOwner, async (req, res) => {
     const newCafe = new Cafe(req.body.cafe);
     newCafe.owner = req.params.cafeOwnerId;
     await newCafe.save();

@@ -10,12 +10,21 @@ router.get("/",(req,res)=>{
 })
 
 // confirmation route
-router.get("/confirmation",isLoggedIn,(req,res)=>{
+router.get("/owner-confirmation",isLoggedIn,(req,res)=>{
     if(res.locals.currUser.userType=="normalUser"){
         return res.render("owners/confirm.ejs");
     }else{
         // req.flash("error","you are not authorized to register as owner");
         let message = "wrong redirection, you are not authorized to register as owner"
+        res.render("error.ejs",{message})
+    }
+})
+router.get("/singer-confirmation",isLoggedIn,(req,res)=>{
+    if(res.locals.currUser.userType=="normalUser"){
+        return res.render("singers/confirm.ejs");
+    }else{
+        // req.flash("error","you are not authorized to register as singer");
+        let message = "wrong redirection, you are not authorized to register as singer"
         res.render("error.ejs",{message})
     }
 })

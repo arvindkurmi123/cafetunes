@@ -15,6 +15,7 @@ const userRouter = require("./routes/user.js");
 const ownerRouter = require("./routes/owner.js");
 const cafeRouter = require("./routes/cafe.js");
 const eventRouter = require("./routes/event.js");
+const singerRouter = require("./routes/singer.js");
 const session = require('express-session');
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -78,6 +79,7 @@ app.use((req,res,next)=>{
 
 app.use("/listings",listingRouter);
 app.use("/owners",ownerRouter)
+app.use("/singers",singerRouter);
 app.use("/caves",cafeRouter);
 app.use("/events",eventRouter);
 app.use("/listings/:id/reviews",reviewRouter);
