@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 const UserController = require("../controllers/users.js");
 // Home route
 router.get("/",(req,res)=>{
-    res.render("Home.ejs")
+    res.render("Home.ejs");
 })
 
 // confirmation route
@@ -19,7 +18,6 @@ router.get("/confirmation",isLoggedIn,(req,res)=>{
         let message = "wrong redirection, you are not authorized to register as owner"
         res.render("error.ejs",{message})
     }
-    
 })
 // signup route
 router

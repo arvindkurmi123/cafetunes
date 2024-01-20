@@ -32,7 +32,9 @@
         <div class="navbar-nav">
           <a class="nav-link" href="/caves">Explore</a>
         </div>
-
+        <div class="navbar-nav">
+          <a class="nav-link" href="/events">Events</a>
+        </div>
         <form class="d-flex">
           <input class="form-control me-2 search-inp" type="search" placeholder="Search Cafe" aria-label="Search">
           <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
@@ -46,6 +48,7 @@
           <% } if(currUser){%>
             <% if(currUser.userType=="cafeOwner"){%>
               <a class="nav-link" href="/owners/<%= currUser._id %>/events/new">Host an event</a>
+              <a class="nav-link" href="/owners/<%= currUser._id %>"><%= currUser.username %></a>
             <%}else if(currUser.userType=="normalUser"){%>
               <a class="nav-link" href="/confirmation">Register as cafe Owner</a>
               <a class="nav-link" href="/owners/<%= currUser._id %>/events/new">Register as singer</a>

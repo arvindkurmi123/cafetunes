@@ -10,8 +10,8 @@ module.exports.isLoggedIn = (req,res,next)=>{
     }
     else{
       req.session.redirectUrl = req.originalUrl;
-      req.flash("error","you must be logged in to change or create a listing!");
-      return res.redirect("/");
+      req.flash("error","you must be login before redirection!");
+      return res.redirect("/login");
     }
 }
 

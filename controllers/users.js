@@ -3,13 +3,20 @@ const cafeOwner = require("../models/cafeOwner");
 const Cafe = require("../models/cafe");
 
 module.exports.renderSignupForm = (req,res)=>{
-    res.render("users/signup.ejs");
+    console.log("req body recieved from home to signup",req.body)
+    let {userType} = req.body;
+    console.log("userType recieved at user.js route by home",userType);
+    console.log("user is redirected to signup page");
+
+    res.render("users/signup.ejs",{userType});
 };
 
 module.exports.registerUser = async(req,res)=>{
     try{
         let {username, email, password, type} = req.body;
         let userType = type;
+        console.log("userType recieved at user.js route by signup page",userType);
+
         let newUser = new User({email,userType,username});
         let registeredUser = await User.register(newUser,password);
         req.login(registeredUser,(err)=>{
