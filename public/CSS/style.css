@@ -30,7 +30,8 @@ body{
     display: flex;
     flex-wrap: wrap;
     height: 12rem;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0px 12px;
     text-align: center;
 }
 .f-info-links, .f-info-socials, .f-info-brands{
@@ -73,7 +74,12 @@ body{
     
 }
 
-
+@media screen  and (max-width:1270px){
+    .f-info{
+        height: 24rem;
+        background-color:#BFD3C1;
+    }
+}
 /* Card  */
 
 .listing-card{
@@ -259,3 +265,40 @@ body{
         width: 60%;
     }
 }
+
+
+/* explore and events page  */
+
+.index-container .searchBar{
+    position: fixed;
+    left: 20px;
+    width: 19%;
+
+}
+.index-container .searchBar h4{
+    padding-left: 6px;
+}
+.filters-form input{
+    margin: 5px 5px 15px 0;
+}
+/* filters */
+.search-btn{
+    background-color:#4E3629;
+    color: #fff;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+    height: 40px;
+    width: 100%;
+  }
+  .search-btn:hover{
+    background-color:#4E3629 ;
+    color: #fff;
+  }
+  .search-btn i{
+    display: inline;
+    margin-right: 0.5rem;
+  }
+  .search-inp{
+    border-radius: 25px;
+    padding: 0.5rem 3rem;
+  }

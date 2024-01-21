@@ -9,6 +9,20 @@ router.get("/",async(req,res)=>{
     res.render("caves/index.ejs", { allCaves });
 });
 
+router.post("/",isLoggedIn,async(req,res)=>{
+    let {cafeText,locationText} = req.body;
+    // Perform the query
+    const allCaves = await Cafe.find({
+        $and: [
+        { title: { $regex: new RegExp(cafeText, 'i') } },
+        { location: { $regex: new RegExp(locationText, 'i') } }
+        ]
+    });
+    res.render("caves/index.ejs", { allCaves });
+
+
+})
+
 router.get("/:id",isLoggedIn,async(req,res)=>{
     let {id} = req.params;
     let cafeInfo = await Cafe.findOne({_id:id});

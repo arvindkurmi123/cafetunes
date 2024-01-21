@@ -10,7 +10,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: 'wanderlusts_DEV',
+      folder: 'cafetunes_DEV',
       allowedFormates: ["png","jpg","jpeg"]
     },
   });

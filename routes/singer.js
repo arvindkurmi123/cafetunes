@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const { isLoggedIn, isOwner, validateListing, isCafeOwner } = require("../middleware.js");
-const Cafe = require("../models/cafe.js");
 const User = require("../models/user.js");
 const Singer = require("../models/singer.js");
 const Event = require("../models/event.js");
-
-
+const multer = require("multer");
+const {storage} = require("../cloudConfig.js");
+const upload = multer({storage});
 
 // new registration as singer
 router.get("/new",isLoggedIn, async(req, res, next) => {
@@ -73,8 +73,10 @@ router.get("/:id/event/:eventId",isLoggedIn,async(req,res)=>{
   // res.send("need to create a page where all the events will be shown where the user has taken the stages");
   res.redirect(`/singers/${id}`);
 });
-router.post("/:id/edit",isLoggedIn,async(req,res)=>{
-  let {id} = req.params;
+router.post("/:id/edit",isLoggedIn,upload.single('singer[photo]'),async(req,res)=>{
+  if (!req.body.singer) {
+    throw new ExpressError(400, "send valid data for listing")
+  }
   let singer = await Singer.findByIdAndUpdate(id,{... req.body.singer});
   await singer.save();
   res.redirect(`/singers/${singer.userId}`);
@@ -84,8 +86,11 @@ router.post("/:id/edit",isLoggedIn,async(req,res)=>{
 router.get("/:id/participate",isLoggedIn,async(req,res)=>{
   let {id} = req.params;
   let allEvents = await Event.find({hasSinger:false});
-  res.render("events/index.ejs",{allEvents});
+  if(allEvents.length >0){
+    res.render("events/index.ejs",{allEvents});
+  }else{
+    res.render("singers/emptyEvents.ejs");
+  }
 });
-
 
 module.exports = router;

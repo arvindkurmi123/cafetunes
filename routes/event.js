@@ -6,9 +6,33 @@ const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 
 // index route
 router.get("/",isLoggedIn,async(req,res)=>{
-    let allEvents = await Event.find({hasSinger:true}); 
+    let all = await Event.find({hasSinger:true}); 
+    let allEvents = [];
+    for (let event of all){
+        allEvents.push(await event.populate("cafe"));
+    }
+    console.log(allEvents);
     res.render("events/index.ejs",{allEvents});
 })
+
+router.post("/",isLoggedIn,async(req,res)=>{
+    let {locationText,eventText} = req.body;
+    let all = await Event.find({hasSinger:true});
+    all = all.filter(event =>{
+        return new RegExp(eventText,'i').test(event.title);
+    });
+    let allEvents = [];
+    for (let event of all){
+        allEvents.push(await event.populate("cafe"));
+    }
+    allEvents = allEvents.filter(event =>{
+        return new RegExp(locationText,'i').test(event.cafe.location);
+    });
+    console.log(allEvents);
+    res.render("events/index.ejs",{allEvents});
+})
+
+
 router.get("/:id",isLoggedIn,async(req,res)=>{
     let {id} = req.params;
     let event = await Event.findOne({_id:id});
