@@ -15,10 +15,17 @@
         <p class="event-text"><%= event.description %></p>
         <p class="event-text"><b>Date: &nbsp;</b><%= event.date %></p>
         <p class="event-text"><b>Time: &nbsp;</b><%= event.time %></p>
+        <p class="event-text"><b>Phone: </b><%= event.cafe.phone %></p>
         <% if(event.price || event.price>0){ %>
-            <p class="event-text"><b>Price</b> : <%= event.price %></p>
+            <p class="event-text"><b>Joining Price</b> : <%= event.price %></p>
         <%}else{%>
-            <p class="event-text"><b>Price</b> : Free</p>
+            <p class="event-text"><b>Joining Price</b> : Free</p>
+        <%}%>
+        <% if(!event.hasSinger || currUser.usertype=='singer'){ %>
+          <form action="/singers/<%= currUser._id %>/event/<%= event._id %>">
+            <button class="btn btn-success">Take the stage in this cafe</button>
+            <p style="color: red;"><i>Note: you should call the cafe Owner first before taking the stage</i></p>
+          </form>
         <%}%>
     </div>
 </div>

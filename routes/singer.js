@@ -50,6 +50,7 @@ router.post("/:id",isLoggedIn,async(req,res)=>{
 router.get("/:id",isLoggedIn,async(req,res)=>{
     let {id} = req.params;
     let singer = await Singer.findOne({userId:id});
+    singer.events = singer.events.reverse();
     console.log("to ye hai singeer saab jinki profile dikhani hai",singer);
     singer = await singer.populate("userId");
     singer = await singer.populate({path:"reviews",populate:"author"});
@@ -59,6 +60,19 @@ router.get("/:id",isLoggedIn,async(req,res)=>{
     res.render("singers/profile.ejs",{singer});
 })
 
+router.get("/:id/event/:eventId",isLoggedIn,async(req,res)=>{
+  let {id,eventId} = req.params;
+  console.log("taking stage: singerId",id," eventId",eventId);
+  let singer = await Singer.findOne({userId:id});
+  let event = await Event.findOne({_id:eventId});
+  event.hasSinger = true;
+  event.singer = singer;
+  singer.events.push(event);
+  await event.save();
+  await singer.save();
+  // res.send("need to create a page where all the events will be shown where the user has taken the stages");
+  res.redirect(`/singers/${id}`);
+});
 router.post("/:id/edit",isLoggedIn,async(req,res)=>{
   let {id} = req.params;
   let singer = await Singer.findByIdAndUpdate(id,{... req.body.singer});
@@ -72,5 +86,6 @@ router.get("/:id/participate",isLoggedIn,async(req,res)=>{
   let allEvents = await Event.find({hasSinger:false});
   res.render("events/index.ejs",{allEvents});
 });
+
 
 module.exports = router;
