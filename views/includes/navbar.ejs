@@ -52,7 +52,10 @@
             <%}else if(currUser.userType=="normalUser"){%>
               <a class="nav-link" href="/owner-confirmation">Register as cafe Owner</a>
               <a class="nav-link" href="/singer-confirmation">Register as singer</a>
-            <%}%>
+            <%}else if(currUser.userType=="singer"){%>
+              <a class="nav-link" href="/singers/<%= currUser._id %>/participate">participate in event</a>
+              <a class="nav-link" href="/singers/<%= currUser._id %>">profile</a>
+            <% } %>
           <a class="nav-link" href="/logout"><b>Logout <i class="fa-solid fa-right-from-bracket"></i></b></a>
           <% } %>
         </div>

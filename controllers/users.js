@@ -57,20 +57,20 @@ module.exports.renderLoginForm = (req,res)=>{
 };
 
 module.exports.loginUser = async (req,res)=>{
-    req.flash("success","Welcome back to Cafetunes!");
     let redirectUrl = res.locals.redirectUrl;
     if(!redirectUrl){
         
         if(req.user.userType === 'cafeOwner'){
+            req.flash("success","Welcome back to Cafetunes!");
             let cafe = await Cafe.findOne({owner:req.user._id});
             return res.redirect(`/owners/${cafe.owner}`);
         }
         else if(req.user.userType === 'singer'){
-            // let cafe = await Cafe.findOne({owner:req.user._id});
-            // return res.redirect(`/singers/${cafe.owner}`);
-            return res.send("login path for singer is not given in controllers");
+            let singerId = req.user._id;
+            return res.redirect(`/singers/${singerId}`);
         }
         else if(req.user.userType === 'normalUser'){
+            req.flash("success","Welcome back to Cafetunes!");
             return res.redirect(`/caves`);
         }
         else{
@@ -78,7 +78,7 @@ module.exports.loginUser = async (req,res)=>{
         }
     }
     else{
-        redirectUrl = redirectUrl || "/listings";
+        redirectUrl = redirectUrl || "/caves";
         res.redirect(redirectUrl);
     }
     

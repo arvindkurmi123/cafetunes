@@ -26,6 +26,12 @@ const singerSchema = new Schema({
     type : Schema.Types.ObjectId,
     ref : "Event" 
   }],
+  about: String,
+  instagram: String,
+  facebook: String,
+  twitter: String,
+  education: String,
+  accomplishments: String
 
 });
  

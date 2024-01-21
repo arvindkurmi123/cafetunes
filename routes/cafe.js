@@ -3,7 +3,6 @@ const router = express.Router();
 const {isLoggedIn, isOwner, isReviewAuthor, validateReview} = require("../middleware.js");
 const Cafe = require("../models/cafe.js");
 const Review = require("../models/review");
-const User = require("../models/user.js");
 
 router.get("/",async(req,res)=>{
     const allCaves = await Cafe.find({});

@@ -6,7 +6,7 @@ const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 
 // index route
 router.get("/",isLoggedIn,async(req,res)=>{
-    let allEvents = await Event.find({}); 
+    let allEvents = await Event.find({hasSinger:true}); 
     res.render("events/index.ejs",{allEvents});
 })
 router.get("/:id",isLoggedIn,async(req,res)=>{

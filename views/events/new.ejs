@@ -21,6 +21,15 @@
                     </div>
                 </div>
 
+                <div class="input-group mb-3">
+                <label class="input-group-text" for="type">Do you want a singer for the event</label>
+                <select class="form-select" id="type" name="flag" required>
+                  <option selected value="yes">Yes, I want a singer</option>
+                  <option value="no">No, i already has a singer</option>
+                  <option value="noSinger">No, this event don't require a singer</option>
+                </select>
+              </div>
+
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload event invitation image(if any)</label>
                     <input name="event[image]" type="text" class="form-control" />

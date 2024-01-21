@@ -58,6 +58,11 @@ router.post("/:cafeOwnerId/events",isLoggedIn,isCafeOwner,async(req,res)=>{
     event.owner = user;
     let cafe = await Cafe.findOne({owner:cafeOwnerId});
     event.cafe = cafe;
+    if(req.body.flag=="yes"){
+        event.hasSinger = false;
+    }else {
+        event.hasSinger = true;
+    }
     await event.save();
     cafe.events.push(event);
     await cafe.save();

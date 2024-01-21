@@ -233,7 +233,11 @@ body{
     margin: 0 5px;
 }
 
-
+.profile-showEvent-review-card{
+    border: rgba(0, 0, 0, 0.302) 1px solid;
+    border-radius: 15px;
+    width: 40%;
+}
 
 
 

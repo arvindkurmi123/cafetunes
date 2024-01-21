@@ -561,9 +561,6 @@
   z-index: 12;
   background: #FFF;
 }
-/*===============================================
-  Tab Navigation - Tabs Right
-================================================= */
 .tabs-right {
   float: right;
 }
@@ -638,18 +635,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <section id="content" class="container">
     <!-- Begin .page-heading -->
     <div class="page-heading">
@@ -666,6 +651,9 @@
                 <p class="lead">
                     <%= singer.about %>
                 </p>
+                <p>
+                  mobile: <%= singer.phone %>
+                </p>
                 <div class="media-links">
                     <i class="fa-brands fa-facebook"></i>
                     <i class="fa-brands fa-twitter"></i>
@@ -677,6 +665,12 @@
 
     <div class="row">
         <div class="col-md-4">
+          <%console.log(currUser); %>
+          <% if(currUser.userType == 'singer'){ %>
+          <form action="/singers/<%= singer._id %>/edit" class="mb-3">
+            <button class="btn btn-success">Update profile</button>
+          </form>
+          <%}%>
           <div class="panel">
             <div class="panel-heading">
               <span class="panel-icon">
@@ -688,56 +682,52 @@
               <table class="table mbn tc-icon-1 tc-med-2 tc-bold-last">
                 <thead>
                   <tr class="hidden">
-                    <th class="mw30">#</th>
+                    
                     <th>Platform</th>
-                    <th>Followers</th>
+                    <th>Link</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                        <i class="fab fa-instagram" style="color: rgb(254, 4, 133);"></i>
-                    </td>
+                   
                     <td>Instagram</td>
-                    <td>12K</td>
+                    <td>
+                      <% if(singer.instagram){%>
+                        <a href="<%= singer.instagram %>"><i class="fab fa-instagram" style="color: rgb(254, 4, 133);"></i></a>
+                      <% }else{%>
+                        NA
+                      <%}%>
+                    </td>
                   </tr>
                   <tr>
-                    <td>
-                        <i class="fab fa-facebook" style="color: rgb(4, 71, 254);"></i> <!-- Facebook icon -->
-                        
-                    </td>
+                    
                     <td>Facebook</td>
                     <td>
-                        4.2K
+                      <% if(singer.facebook){%>
+                        <a href="<%= singer.facebook %>"><i class="fab fa-facebook" style="color: rgb(4, 71, 254);"></i></a>
+                      <% }else{%>
+                        NA
+                      <%}%>
                     </td>
                   </tr>
                   <tr>
-                    <td>
-                        <i class="fab fa-twitter" style="color: rgb(4, 183, 254);"></i>
-                    </td>
+            
                     <td>Twitter</td>
                     <td>
-                      732
+                      <% if(singer.twitter){%>
+                        <a href="<%= singer.twitter %>"><i class="fab fa-twitter" style="color: rgb(4, 183, 254);"></i></a>
+                      <% }else{%>
+                        NA
+                      <%}%>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div class="panel">
-            <div class="panel-heading">
-              <span class="panel-icon">
-                <i class="fa fa-trophy"></i>
-              </span>
-              <span class="panel-title"> My Skills</span>
-            </div>
-            <div class="panel-body pb5">
-            
-              <span class="skill-label">guitar</span>
-              <span class="skill-label">Harmonium</span>
+
+          
 
 
-            </div>
-          </div>
           <div class="panel">
             <div class="panel-heading">
               <span class="panel-icon">
@@ -746,34 +736,33 @@
               <span class="panel-title">About Me</span>
             </div>
             <div class="panel-body pb5">
-
+              <% if(singer.experience){ %>
               <h6>Experience</h6>
 
-              <h4>Facebook Internship</h4>
-              <p class="text-muted"> University of Missouri, Columbia
-                <br> Student Health Center, June 2010 - 2012
-              </p>
+              <p class="text-muted"> <%= singer.experience %></p>
 
               <hr class="short br-lighter">
-
+              <% } %>
+              <% if(singer.education){ %>
               <h6>Education</h6>
 
-              <h4>Bachelor of Science, PhD</h4>
-              <p class="text-muted"> University of Missouri, Columbia
-                <br> Student Health Center, June 2010 through Aug 2011
+              
+              <p class="text-muted"> <%= singer.education %>
               </p>
 
               <hr class="short br-lighter">
-
+              <% } %>
+              <% if(singer.accomplishments){ %>
               <h6>Accomplishments</h6>
 
-              <h4>Successful Business</h4>
-              <p class="text-muted pb10"> University of Missouri, Columbia
-                <br> Student Health Center, June 2010 through Aug 2011
+              <p class="text-muted pb10"> <%=singer.accomplishments %>
               </p>
-
+              <% } %>
             </div>
           </div>
+
+          
+          
         </div>
 
 
@@ -788,7 +777,7 @@
         <div class="col-md-8">
 
           <div class="tab-block">
-            <div class="tab-content p30" style="height: 1000px;">
+            <div class="tab-content p30" style="height: 900px;">
                 <h3>Event participated</h3><hr>
                 <% for(event of singer.events){ %>
                 <div class="media">
@@ -815,6 +804,22 @@
                             <%}%>
                         </div>
                     </div>
+                </div>
+                <div class="mt-3">
+                  <% if(event.reviews.length>0){%>
+                    <div class="row">
+                      <p><b>All reviews</b></p>
+                      <% for(review of event.reviews){ %>
+                        <div class="profile-showEvent-review-card col-5 ms-4 mb-3">
+                          <div class="showEvent-review-card-body>
+                            <h5 class="showEvent-review-card-title"> @<%= review.author.username %></h5>
+                            <p class="starability-result showEvent-review-card-text" data-rating="<%= review.rating %>"></p>
+                            <p class="showEvent-review-card-text"><%= review.comment %></p>
+                          </div>
+                        </div>
+                      <% } %>
+                    </div>
+                    <%}%>
                 </div>
                 <!-- <div class="media">
                     <a class="pull-left" href="#"> <img class="media-object mn thumbnail mw50" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="..."> </a>
