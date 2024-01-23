@@ -8,7 +8,7 @@ const Event = require("../models/event.js");
 const multer = require("multer");
 const {storage} = require("../cloudConfig.js");
 const upload = multer({storage});
-
+const ExpressError = require("../utils/expressError.js");
 // new registration as singer
 router.get("/new",isLoggedIn, async(req, res, next) => {
     try {
@@ -39,10 +39,18 @@ router.get("/:id/edit",isLoggedIn,async(req,res)=>{
 // new singer registration
 
 // ----- we can also add singervalidation here (for both singer and req.body.singer)
-router.post("/:id",isLoggedIn,async(req,res)=>{
+router.post("/:id",isLoggedIn,upload.single('singer[photo]'),async(req,res)=>{
     let {id} = req.params;
+    if (!req.body.singer) {
+      throw new ExpressError(400, "send valid data for singer profile");
+    }
     let singer = new Singer(req.body.singer);
-    if(!singer.userId) singer.userId = id;
+    singer.userId = id;
+    if(typeof req.file !== 'undefined'){
+      let url = req.file.path ;
+      let filename = req.file.filename;
+      singer.photo = {url,filename};
+    }
     console.log("mohalla me naya singer aaya bajao tali",singer,id);
     await singer.save();
     res.redirect(`/singers/${id}`);
@@ -50,8 +58,8 @@ router.post("/:id",isLoggedIn,async(req,res)=>{
 router.get("/:id",isLoggedIn,async(req,res)=>{
     let {id} = req.params;
     let singer = await Singer.findOne({userId:id});
-    singer.events = singer.events.reverse();
-    console.log("to ye hai singeer saab jinki profile dikhani hai",singer);
+    if(singer.events) singer.events = singer.events.reverse();
+    console.log("to ye hai singer saab jinki profile dikhani hai",singer);
     singer = await singer.populate("userId");
     singer = await singer.populate({path:"reviews",populate:"author"});
     singer = await singer.populate({path:"events",populate:"cafe"});
@@ -74,19 +82,30 @@ router.get("/:id/event/:eventId",isLoggedIn,async(req,res)=>{
   res.redirect(`/singers/${id}`);
 });
 router.post("/:id/edit",isLoggedIn,upload.single('singer[photo]'),async(req,res)=>{
+  let {id} = req.params;
   if (!req.body.singer) {
     throw new ExpressError(400, "send valid data for listing")
   }
   let singer = await Singer.findByIdAndUpdate(id,{... req.body.singer});
+  if(typeof req.file !== 'undefined'){
+    let url = req.file.path ;
+    let filename = req.file.filename;
+    singer.photo = {url,filename};
+  }
   await singer.save();
+  req.flash("success","profile updated successfully");
   res.redirect(`/singers/${singer.userId}`);
 });
 
 
 router.get("/:id/participate",isLoggedIn,async(req,res)=>{
   let {id} = req.params;
-  let allEvents = await Event.find({hasSinger:false});
-  if(allEvents.length >0){
+  let all = await Event.find({hasSinger:false});
+  if(all.length >0){
+    let allEvents = [];
+    for (let event of all){
+        allEvents.push(await event.populate("cafe"));
+    }
     res.render("events/index.ejs",{allEvents});
   }else{
     res.render("singers/emptyEvents.ejs");

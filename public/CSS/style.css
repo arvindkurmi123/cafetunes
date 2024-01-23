@@ -226,7 +226,7 @@ body{
     margin-top: 20px;
 }
 .profile-image{
-    width: 30%;
+    width: 200px;
 }
 .clearfix{
     display: flex;

@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate.ejs") %>
   <h3>Create a New Listing</h3>
-  <form method="POST" action="/singers/<%= singerId %>" novalidate class="needs-validation" >
+  <form method="POST" action="/singers/<%= singerId %>" novalidate class="needs-validation" enctype="multipart/form-data">
 
     <div class="row mt-3">
       <div class="col-8 offset-2">
@@ -13,19 +13,20 @@
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Age</label>
-            <input name="singer[Age]" type="text" class="form-control" required />
+            <input name="singer[Age]" type="number" class="form-control" required />
             <div class="invalid-feedback">
-              Please provide an image url
+              Please provide Age
             </div>
         </div>
 
         <div class="mb-3">
             <label for="photo" class="form-label">Profile Photo</label>
-            <input name="singer[photo]" placeholder="image url" type="text" class="form-control" required />
+            <input name="singer[photo]" type="file" class="form-control" required />
             <div class="invalid-feedback">
-              photo should be valid
+              Profile image must be provided
             </div>
         </div>
+
         <div class="row">
           <div class="mb-3 col-md-4">
             <label for="price" class="form-label">Phone Number</label>

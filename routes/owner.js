@@ -6,6 +6,9 @@ const { isLoggedIn, isOwner, validateListing, isCafeOwner } = require("../middle
 const Cafe = require("../models/cafe.js");
 const User = require("../models/user.js");
 const Event = require("../models/event.js");
+const multer = require("multer");
+const {storage} = require("../cloudConfig.js");
+const upload = multer({storage});
 
 router.get("/new",isLoggedIn, async(req, res, next) => {
     try {
@@ -22,9 +25,14 @@ router.get("/new",isLoggedIn, async(req, res, next) => {
         res.render("/caves");
     }
 });
-router.post("/:cafeOwnerId",isLoggedIn,isCafeOwner, async (req, res) => {
+router.post("/:cafeOwnerId",isLoggedIn,isCafeOwner,upload.single('cafe[image]'), async (req, res) => {
     const newCafe = new Cafe(req.body.cafe);
     newCafe.owner = req.params.cafeOwnerId;
+    if(typeof req.file !== 'undefined'){
+        let url = req.file.path ;
+        let filename = req.file.filename;
+        newCafe.image = {url,filename};
+    }
     await newCafe.save();
     console.log("newCafe info" + newCafe);
     const user = await User.find({ _id: req.params.cafeOwnerId });

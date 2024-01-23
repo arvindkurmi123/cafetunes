@@ -7,7 +7,10 @@ const cafeSchema = new Schema({
     required: true,
   },
   description: String,
-  image: String,
+  image:  {
+    url: String,
+    filename:String
+  },
   phone: Number,
   location: String,
   country: String,

@@ -7,7 +7,10 @@ const singerSchema = new Schema({
     required: true,
   },
   experience: String,
-  photo: String,
+  photo: {
+    url: String,
+    filename:String
+  },
   phone:{
     type: Number,
     required: true,
