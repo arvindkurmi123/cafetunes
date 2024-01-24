@@ -19,7 +19,7 @@
     <% for(let cafe of allCaves) { %>
       <a href="/caves/<%= cafe._id %>" class="listing-links">
         <div class="card listing-card">
-          <img class="card-img-top" src="<%= cafe.image %>" alt="cardimg" style="height: 20rem;">
+          <img class="card-img-top" src="<%= cafe.image.url %>" alt="cardimg" style="height: 20rem;">
           <div class="card-img-overlay"></div>
           <div class="card-body">
             <p class="card-text">

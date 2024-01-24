@@ -21,7 +21,7 @@
       <% for(let event of allEvents) { %>
         <a href="/events/<%= event._id %>" class="listing-links">
           <div class="card listing-card">
-            <img class="card-img-top" src="<%= event.image %>" alt="cardimg" style="height: 20rem;">
+            <img class="card-img-top" src="<%= event.image.url %>" alt="cardimg" style="height: 20rem;">
             <div class="card-img-overlay"></div>
             <div class="card-body">
               <p class="card-text">

@@ -12,7 +12,10 @@
             <p class="card-text"> <%= cafeInfo.description %></p>
             <p class="card-text"><i class="fa-solid fa-phone"></i> <%= cafeInfo.phone %></p>
             <p class="card-text">cafe location: <%= cafeInfo.location %></p> 
-            <p class="card-text">country: <%= cafeInfo.country %></p>  
+            <p class="card-text">country: <%= cafeInfo.country %></p> 
+            <form action="\owners\edit">
+              <button class="btn btn-success">Update cafe profile</button>
+            </form> 
           </div>
         </div>
       </div>
@@ -45,7 +48,7 @@
                 <h5 class="event-title"><b><%= event.title %></b></h5>
                 <% if(event.image){ %>
                   <div class="event-image">
-                    <img class="event-img" src=<%= event.image %> alt="event-img">
+                    <img class="event-img" src=<%= event.image.url %> alt="event-img">
                   </div>
                 <%}%>
               

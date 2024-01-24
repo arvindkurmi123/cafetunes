@@ -25,6 +25,33 @@ router.get("/new",isLoggedIn, async(req, res, next) => {
         res.render("/caves");
     }
 });
+
+// edit route
+router.get("/edit",isLoggedIn,async(req,res)=>{
+    let cafeOwnerId = res.locals.currUser;
+    let cafe = await Cafe.findOne({owner:cafeOwnerId});
+    res.render("owners/edit.ejs",{cafe});
+});
+router.post("/:cafeOwnerId/edit",isLoggedIn,isCafeOwner,upload.single('cafe[image]'),async(req,res)=>{
+    console.log(req.body);
+    let id = res.locals.currUser._id;
+    let cafe = await Cafe.findOne({owner:id});
+    if(!cafe){
+        return res.send("cafe is undefined in edit route (there may not exist the user as cafe owner or somethis else)")
+    }
+    let updatedCafe = await Cafe.findByIdAndUpdate(cafe._id,{... req.body.cafe});
+    if(!updatedCafe){
+        return res.send("updatedCafe is undefined in edit route (there may not exist the user as cafe owner or somethis else)")
+    }
+    if(typeof req.file !== 'undefined'){
+        let url = req.file.path ;
+        let filename = req.file.filename;
+        updatedCafe.image = {url,filename};
+    }
+    await updatedCafe.save();
+    req.flash("success","cafe information updated successfully");
+    res.redirect(`/owners/${updatedCafe.owner}`);
+});
 router.post("/:cafeOwnerId",isLoggedIn,isCafeOwner,upload.single('cafe[image]'), async (req, res) => {
     const newCafe = new Cafe(req.body.cafe);
     newCafe.owner = req.params.cafeOwnerId;
@@ -58,7 +85,7 @@ router.get("/:cafeOwnerId/events/new",isLoggedIn,isCafeOwner,(req,res)=>{
     let {cafeOwnerId} = req.params;
     res.render("events/new.ejs",{cafeOwnerId});
 })
-router.post("/:cafeOwnerId/events",isLoggedIn,isCafeOwner,async(req,res)=>{
+router.post("/:cafeOwnerId/events",isLoggedIn,isCafeOwner,upload.single("event[image]"),async(req,res)=>{
     let {cafeOwnerId} = req.params;
     let event = new Event(req.body.event);
     console.log(event);
@@ -70,6 +97,11 @@ router.post("/:cafeOwnerId/events",isLoggedIn,isCafeOwner,async(req,res)=>{
         event.hasSinger = false;
     }else {
         event.hasSinger = true;
+    }
+    if(typeof req.file !== 'undefined'){
+        let url = req.file.path ;
+        let filename = req.file.filename;
+        event.image = {url,filename};
     }
     await event.save();
     cafe.events.push(event);

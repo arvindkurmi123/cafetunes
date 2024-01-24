@@ -7,7 +7,10 @@ const eventSchema = new Schema({
     required: true,
   },
   description: String,
-  image:String,
+  image: {
+    url: String,
+    filename:String
+  },
   price: Number,
   date: String,
   time:String,
