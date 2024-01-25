@@ -63,6 +63,7 @@ router.get("/:id",isLoggedIn,async(req,res)=>{
     singer = await singer.populate("userId");
     singer = await singer.populate({path:"reviews",populate:"author"});
     singer = await singer.populate({path:"events",populate:"cafe"});
+    singer = await singer.populate({path:"events.reviews",populate:"author"});
     console.log(singer);
     console.log("currUser",res.locals.currUser);
     res.render("singers/profile.ejs",{singer});

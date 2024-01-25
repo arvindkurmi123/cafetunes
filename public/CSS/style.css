@@ -3,7 +3,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
+    /* background-color: #8B4513; */
 }
 
 .container{
@@ -17,6 +17,10 @@ body{
 
 .nav-link{
     color: #0f0f0f !important;
+    opacity: 0.8;
+}
+.nav-link:hover{
+    color: #4E3629 !important;
 }
 .home-icon{
     color: #4E3629;
@@ -302,3 +306,28 @@ body{
     border-radius: 25px;
     padding: 0.5rem 3rem;
   }
+
+
+
+/* website styling button  */
+.btn{
+    background-color: white;
+    color: #4E3629;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border:#4E3629 solid 2px;
+}
+.btn:hover{
+    background-color: #8bce9143;
+    color: #402b1f;
+    border:#402b1f solid 2px;
+}
+
+
+/* signup page  */
+.brown{
+    color:#402b1f ;
+}
+.center{
+    padding:0px 0px 0px 180px;
+}
