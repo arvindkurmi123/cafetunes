@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const cafeOwner = require("../models/cafeOwner");
 const Cafe = require("../models/cafe");
 
 module.exports.renderSignupForm = (req,res)=>{
@@ -59,10 +58,18 @@ module.exports.renderLoginForm = (req,res)=>{
 module.exports.loginUser = async (req,res)=>{
     let redirectUrl = res.locals.redirectUrl;
     if(!redirectUrl){
-        
+        if(!req.user){
+            req.flash("error","not registered now")
+            return res.redirect("/caves")
+        }
+
         if(req.user.userType === 'cafeOwner'){
             req.flash("success","Welcome back to Cafetunes!");
             let cafe = await Cafe.findOne({owner:req.user._id});
+            if(!cafe){
+                req.flash("error","You are not registered as cafe owner now")
+                return res.redirect("/caves")
+            }
             return res.redirect(`/owners/${cafe.owner}`);
         }
         else if(req.user.userType === 'singer'){

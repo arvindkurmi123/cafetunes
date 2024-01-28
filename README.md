@@ -1,4 +1,5 @@
-# Wanderlust
+# Cafetunes
+
 
 ## Description
 
@@ -21,7 +22,6 @@ This project is a web application designed for users to showcase their propertie
 
  ## Website
 
-[Wanderlust](https://wanderlust-5pen.onrender.com/listings)
 
 ## Features
 
@@ -48,7 +48,8 @@ This project is a web application designed for users to showcase their propertie
 1. Clone this repository.
 
 ```bash
-  git clone https://github.com/Ritvik718/Wanderlust.git
+  git clone https://github.com/Ritvik718/Cafetunes
+  .git
 ```
 
 2. Install project dependencies.
