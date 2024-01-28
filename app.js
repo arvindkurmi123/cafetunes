@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname,"/public")));
 const store = MongoStore.create({
   mongoUrl : dbUrl,
   crypto :{
-    secret: "mySuperSecretString"
+    secret: process.env.SECRET
   },
   touchAfter: 24*3600,
 })
@@ -57,8 +57,8 @@ store.on("error", ()=>{
 
 // options set for session created 
 const sessionOptions = {
-  store,
-  secret : "mySuperSecretString",
+  store:store,
+  secret : process.env.SECRET,
   resave : false,  // don't resave the same session when there is no change in session(store)
   saveUninitialized: true,// if session is uninitialized then save it to the store(session)
   cookie:{ // session ke sath jo cookie attatch hai uski properties
